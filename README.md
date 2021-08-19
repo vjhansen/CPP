@@ -623,12 +623,14 @@ public:
     double GetImaginary(void) const { return i; }
 
     // + Operator
-    Complex operator+(const Complex& a, const Complex& b) {
+    Complex operator+(const Complex& a, const Complex& b) 
+    {
         return Complex(a.GetReal() + b.GetReal(), a.GetImaginary() + b.GetImaginary());
     }
 
     // - Operator
-    Complex operator-(const Complex& a, const Complex& b) {
+    Complex operator-(const Complex& a, const Complex& b) 
+    {
         return Complex(a.GetReal() - b.GetReal(), a.GetImaginary() - b.GetImaginary());
     }
 };
@@ -657,18 +659,21 @@ public:
 /* They can also be defined inside the class body but leaving them outside
 	is a clearer reminder that they are not part of the class */
 
-Complex operator+(const Complex& a, const Complex & b) {
+Complex operator+(const Complex& a, const Complex & b) 
+{
     return Complex(a.r + b.r, a.i + b.i);
 }
 
-Complex operator-(const Complex& a, const Complex& b) {
+Complex operator-(const Complex& a, const Complex& b) 
+{
     return Complex(a.r - b.r, a.i - b.i);
 }
 ```
 
 In either case, the new operators can be used as follows:
 ```cpp
-int main() {
+int main() 
+{
     Complex a(1, 2);    //  1 + 2i
     Complex b(5, 3);    //  5 + 3i
     Complex c = a + b;	//  6 + 5i
@@ -683,19 +688,22 @@ functionality.
 ```cpp
 #include <iostream>
 
-class Complex {
+class Complex 
+{
 public:
     friend ostream& operator<<(ostream& os, const Complex& c);
 };
 
 // Definition
 // Again, this is NOT a member function!
-ostream& operator<<(ostream& os, const Complex& c) {
+ostream& operator<<(ostream& os, const Complex& c) 
+{
     os << c.r << " + " << c.i << "i";
     return os;
 }
 
-int main() {
+int main() 
+{
     Complex a {1, 2};
     Complex b {5, 3};
     cout << a;     // Prints: 1 + 2i
@@ -716,12 +724,14 @@ That's great, but since both floating point numbers and integers implement the `
 
 ```cpp
 template <typename T>   // T becomes whatever type is used at compile-time
-T Add(const T& a, const T& b) {
+T Add(const T& a, const T& b) 
+{
     return a + b;       // The type T must support the + operator
 }
 
 // Usages
-int main() {
+int main() 
+{
     Add<int>(3, 5);         // int version
     Add<double>(3.2, 5.8);  // double
     Add(3.45f, 5.0f);	    // we leave off the <float> here, since it can deduce the type from the context
@@ -736,7 +746,8 @@ In this simple example the compiler would generate four different methods, one f
 ```cpp
 // File: storage.h
 template <typename T>      // 'typename' is synonymous with 'class'!
-class Container {
+class Container 
+{
 private:
     T data;
 public:
@@ -940,14 +951,11 @@ Memory in your C++ program is divided into two parts:
 Many times, you are not aware in advance how much memory you will need to store particular information in a defined variable and the size of required memory can be determined at run time. You can allocate memory at run time within the heap for the variable of a given type using a special operator in C++ which returns the address of the space allocated. This operator is called 'new' operator. If you are not in need of dynamically allocated memory anymore, you can use 'delete' operator, which de-allocates memory that was previously allocated by new operator.
 
 -----
-## ASSIGNMENTS from Canvas :christmas_tree:
-> Not Travelling Salesman
-
-#### Create a program that reads a text string with two numbers
-and a operator and prints the result.
+#### A program that reads a text string with two numbers and a operator and prints the result.
 
 ```cpp
-int main() {
+int main() 
+{
     int num1, num2 = 0;
     char op;
     cout<< "Enter two numbers with an operator between: ";
@@ -955,7 +963,8 @@ int main() {
     if (!cin) { // check for invalid input.
         cout<<"Only numbers please"<<endl;
     }
-    switch (op) {
+    switch (op) 
+    {
         case '+':
             cout << num1 << op << num2 << " = " << num1+num2;
             break;
@@ -1041,25 +1050,28 @@ int main() {
 }
 ```
 
-#### `Tokenizer` - Program that reads a text string with multiple numbers
-and operators and prints the result. But now it should be possible, among other things, to use () around partial expressions and the program must deal with arbitrary number of parameters. It is also advantageous to add some other operators %, ^ (power) etc. A natural extension is also to create the program so that the text string can be entered at the start of the program from the command line.
+#### `Tokenizer`
+Program that reads a text string with multiple numbers and operators and prints the result. But now it should be possible, among other things, to use () around partial expressions and the program must deal with arbitrary number of parameters. It is also advantageous to add some other operators %, ^ (power) etc. A natural extension is also to create the program so that the text string can be entered at the start of the program from the command line.
 
 ```cpp
 int no_errors = 0;
-double error(const char* s) {
+double error(const char* s) 
+{
     no_errors++;
     std::cerr << "error: " << s << '\n';
     return 1;
 }
 
-enum Token_val {
+enum Token_val 
+{
     name, number, end, PLUS='+', MINUS='-', mul='*',
     DIV='/', print=';', assign='=', LP='(' ,RP=')',
     MOD='%', power = '^'
 };
 
 // Token: sequence of chars, (kind, value) pairs: i.e. (number, 3)
-class Token {
+class Token 
+{
 public:
     char kind;
     double value; // for numbers
@@ -1067,7 +1079,8 @@ public:
     Token(char ch, double val): kind(ch), value(val) {}
 };
 
-class Token_stream {
+class Token_stream 
+{
 public:
     Token_stream(); // constructor
     Token get();
