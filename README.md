@@ -1411,10 +1411,12 @@ Student::Student(std::string n, int a, std::string d) {  } // same as before
 Student::~Student() {}
 std::string Student::getName() const {return Name;} // ..... same as before
 
-void fillVec(std::vector<Student*>& new_Vec_students) {
+void fillVec(std::vector<Student*>& new_Vec_students) 
+{
     Student* p_students = NULL;
     //... same as before
-    for (int i=0; i<size; i++) {
+    for (int i=0; i<size; i++) 
+    {
         //... same as before
         p_students = new Student(n,a,d);
         new_Vec_students.push_back(p_students);
@@ -1422,29 +1424,35 @@ void fillVec(std::vector<Student*>& new_Vec_students) {
 }
 
 // a->b =(*a).b, access member through pointer
-void printVec(const std::vector<Student*> new_students) {
-    for (int i=0; i<new_students.size(); i++) {
-        std::cout<<"Created a student: "<<new_students[i]->getName()
-        <<", "<<new_students[i]->getAge()
-        <<", "<<new_students[i]->getDegree()<< std::endl;
-        std::cout<<std::endl;
+void printVec(const std::vector<Student*> new_students) 
+{
+    for (int i=0; i<new_students.size(); i++) 
+    {
+        std::cout << "Created a student: " << new_students[i]->getName()
+        << ", " << new_students[i]->getAge()
+        << ", " << new_students[i]->getDegree() << std::endl;
+        std::cout << std::endl;
     }
 }
 
-static void cleanUP(std::vector<Student*>& students) {
+static void cleanUP(std::vector<Student*>& students) 
+{
     for (std::vector<Student*>::iterator pObj = students.begin();
-            pObj!=students.end(); ++pObj) {
+            pObj!=students.end(); ++pObj) 
+    {
         delete *pObj;
     }
-    for (int i=0; i<students.size(); ++i) {
-        std::cout<<"Deleting: "<<students[i]->getName()
-        <<", "<<students[i]->getAge()
-        <<", "<<students[i]->getDegree()<< std::endl;
+    for (int i=0; i<students.size(); ++i) 
+    {
+        std::cout << "Deleting: " << students[i]->getName()
+        << ", " << students[i]->getAge()
+        << ", " << students[i]->getDegree() << std::endl;
     }
     students.clear();
 }
 
-int main() {
+int main() 
+{
     std::vector<Student*> students;
     students.reserve(3);
     fillVec(students);
@@ -1457,7 +1465,8 @@ int main() {
 [Data|ptr]->[Data|ptr]->[Data|ptr]->Nullptr
 
 ```cpp
-class StudentNode {
+class StudentNode 
+{
 public:
     StudentNode();  //-Default constructor
     StudentNode(std::string, int, std::string); //-Overloaded constructor
@@ -1472,7 +1481,8 @@ public:
         the private members of another class. */
 };
 
-class StudentLink {
+class StudentLink 
+{
 private:
     StudentNode* head; // point to head
 public:
@@ -1485,13 +1495,15 @@ public:
 };
 
 //-Default constructor (:: = 'scope resolution')
-StudentNode::StudentNode() {
+StudentNode::StudentNode() 
+{
     Name = "John Doe";
     Age = -1;
     Degree = "Other degree";
 }
 //-Overloaded constructor
-StudentNode::StudentNode(std::string n, int a, std::string d) {
+StudentNode::StudentNode(std::string n, int a, std::string d) 
+{
     Name = n;
     Age = a;
     Degree = d;
@@ -1502,7 +1514,8 @@ StudentLink::StudentLink() {head = NULL;}
 StudentLink::~StudentLink() {
     std::cout<<"\nList deleted\n";
 }
-void StudentLink::addData(string Name, int Age, std::string Degree) {
+void StudentLink::addData(string Name, int Age, std::string Degree) 
+{
     StudentNode* Snode = new StudentNode();
     Snode->Name = Name;
     Snode->Age = Age;
@@ -1598,7 +1611,7 @@ int main()
 
 ### Create class Human that can store the data name og age.
 Create two classes, Student and Professor, with the added data: ECTS (for Student) and papers (for Professors).
-Constructor calls the constructor in the base class and use that for initialising the class.
+Constructor calls the constructor in the base class and use that for initializing the class.
 
 ```cpp
 class Human 
@@ -1607,8 +1620,8 @@ class Human
     std::string Name;
     int Age;
  public:
-    Human() { cout<<"Creating default Human"<<endl;}
-    Human(std::string n, int a) : Name(n), Age(a) { cout<<"Creating overloaded Human"<<endl;}
+    Human() { cout << "Creating default Human" << endl;}
+    Human(std::string n, int a) : Name(n), Age(a) { cout << "Creating overloaded Human" << endl;}
 
     std::string getName() const {return Name;}
     int getAge() const {return Age;}
@@ -1617,8 +1630,8 @@ class Human
 
     virtual void printHuman() 
     {
-        std::cout<<"Name: "<<Name<<std::endl
-        <<"Age: "<<Age<<std::endl;
+        std::cout << "Name: " << Name << std::endl
+        << "Age: " << Age << std::endl;
     }
 };
 //------------------------------------
@@ -1630,12 +1643,13 @@ class Student : public Human
     Student(std::string Name, int Age, int e) : Human(Name, Age) 
     {
         ECTS = e;
-        std::cout<<"Creating overloaded Student"<<std::endl;
+        std::cout << "Creating overloaded Student" << std::endl;
     }
     int getECTS() const {return ECTS;}
-    void printStudent() {
+    void printStudent() 
+    {
         Human::printHuman();
-        std::cout<<"ECTS: "<<ECTS<<std::endl;
+        std::cout << "ECTS: " << ECTS << std::endl;
     }
 };
 //------------------------------------
@@ -1863,7 +1877,7 @@ We create a class ZeroException that inherits from the exception-class in STL. W
 
 * **`try`-block**: The code which can throw/cause an exception is kept inside a try block. Then, when the code leads to an error, that error/exception will get caught inside the catch block.
 
-* **`catch`-block**: Catch the error and handle the exception condition. We can have multiple catch blocks to handle different types of exception and perform different actions when the exceptions occur. e.g., we can display descriptive messages to explain why any particular excpetion occured.
+* **`catch`-block**: Catch the error and handle the exception condition. We can have multiple catch blocks to handle different types of exception and perform different actions when the exceptions occur. e.g., we can display descriptive messages to explain why any particular exception occurred.
 
 * **`throw` statement**: Throw exceptions to exception handler i.e. it is used to communicate information about error.
 A throw expression accepts one parameter and that parameter is passed to handler. A throw statement is used when we explicitly want an exception to occur, then we can use throw statement to throw or generate that exception.
