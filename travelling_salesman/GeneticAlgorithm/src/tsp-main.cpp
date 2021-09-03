@@ -15,11 +15,12 @@
 
 
 //  Read .txt-file containing points
-static void read_txt_and_fill(std::vector<Point>& txt_points)
+static void 
+read_txt_and_fill(std::vector<Point>& txt_points)
 {
     std::ifstream myfile;
     std::vector<int> read_point;
-    std::string filestr = "points.txt";
+    auto filestr = "points.txt";
     myfile.open(filestr);
     if (myfile.is_open())
     {
@@ -32,7 +33,7 @@ static void read_txt_and_fill(std::vector<Point>& txt_points)
         myfile.close();
     }
     else std::cout << "Unable to open file.";
-    int n = 1;
+    auto n = 1;
     for (int i=0; i < read_point.front(); i++)
     {
         Point new_Points(read_point.at(n), read_point.at(n+1), read_point.at(n+2));
@@ -40,26 +41,29 @@ static void read_txt_and_fill(std::vector<Point>& txt_points)
         n+=3;  // needed to insert points into x, y and z.
     }
 }
+
 //  print points from .txt-file
-void printVec(const std::vector<Point>& points)
+void 
+printVec(const std::vector<Point>& points)
 {
     std::cout << "\nWe have " << points.size() << " points\n";
-    for (int i=0; i < points.size(); i++)
+    for (int i = 0; i < points.size(); i++)
     {
         std::cout << "Point(" << i << "): " << points[i].getX_coord()
         <<", " << points[i].getY_coord()
-        <<", " << points[i].getZ_coord() << std::endl;
+        <<", " << points[i].getZ_coord() << "\n";
     }
 }
 
-void printPath(const std::vector<int>& shortestPath)
+void 
+printPath(const std::vector<int>& shortestPath)
 {
     std::cout << "\nBest order: [ ";
-    for (int i=0; i < shortestPath.size()-1; i++)
+    for (int i = 0; i < shortestPath.size()-1; i++)
     {
         std::cout << shortestPath[i] << ' ';
     }
-    std::cout << shortestPath[shortestPath.size()-1] << "]" << std::endl;
+    std::cout << shortestPath[shortestPath.size()-1] << "]" << "\n";
 }
 
 int main(int argc, char **argv)
@@ -68,19 +72,23 @@ int main(int argc, char **argv)
 
     if (argc != 5)  // incorrect number of arguments entered
     {  
-        std::cout << "Usage: ./tsp population(int) generations(int) keep(float) mutate(float)" << std::endl;
-        std::cout << "e.g.: ./tsp 1000 100 0.4 1.2" << std::endl;
+        std::cout << "Usage: ./tsp population(int) generations(int) keep(float) mutate(float)" << "\n";
+        std::cout << "e.g.: ./tsp 1000 100 0.4 1.2" << "\n";
         exit(1);
     }
 
-    unsigned int popSize = static_cast<int>(atoi(argv[1]));  // population size
-    unsigned int numGen =  static_cast<int>(atoi(argv[2]));  // # of generations
-    int keepPop = static_cast<int>(atof(argv[3]) * (static_cast<float>(popSize)));    // % of population to keep, range [0, 1]
-    int numMut = static_cast<int>(popSize * atof(argv[4]));   // mutation applied to population
+    unsigned int popSize    = static_cast<int>(atoi(argv[1]));
+    unsigned int numGen     = static_cast<int>(atoi(argv[2]));
+    auto keepPop            = static_cast<int>(atof(argv[3]) * (static_cast<float>(popSize)));    // % of population to keep, range [0, 1]
+    auto numMut             = static_cast<int>(popSize * atof(argv[4]));   // mutation applied to population
 
-    if (popSize < 0 || numGen < 0 || atof(argv[3]) < 0 || atof(argv[3]) > 1 || atof(argv[4]) < 0)
+    if (    popSize < 0 
+        ||  numGen  < 0 
+        ||  atof(argv[3]) < 0 
+        ||  atof(argv[3]) > 1 
+        ||  atof(argv[4]) < 0)
     {
-        std::cout << "**Values out of range**" << std::endl;
+        std::cout << "**Values out of range**" << "\n";
         exit(1);
     }
     read_txt_and_fill(points);
@@ -90,7 +98,7 @@ int main(int argc, char **argv)
     }
     else
     {
-        std::cout << "Read " << points.size() << " points" << std::endl;
+        std::cout << "Read " << points.size() << " points" << "\n";
     }
     // generate a different random sequence each time it runs
     srand(time(nullptr));
@@ -98,7 +106,7 @@ int main(int argc, char **argv)
     path = findAShortPath(points, popSize, numGen, keepPop, numMut);
     std::cout   << "\nShortest distance: "
                 << path.getCircuitLength()
-                << std::endl;
+                << "\n";
     printPath(path.getOrder());
     points.clear();  // destroy all elements in vector
     return 0;

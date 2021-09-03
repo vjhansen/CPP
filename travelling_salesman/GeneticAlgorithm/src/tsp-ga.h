@@ -6,30 +6,30 @@
 
 #include <iostream>
 #include <vector>
-#include <set>       // set container class
-#include <algorithm>  // Contains functions to be used on ranges of elements (e.g. swap, sort)
-#include "point.h"   // Point class
+#include <set> 
+#include <algorithm> 
+#include "point.h"   
 
 class TSPGenome
 {
  private:
     double circuitLength;  // total distance covered when points are visited in a specified order
     std::vector<int> visitOrder;  // the order which the points will be visited
+ 
  public:
     TSPGenome() {}
     TSPGenome(int numPoints);  // constructor that takes # of points to visit
     TSPGenome(const std::vector<int> &order);  // constructor that takes order to visit
     ~TSPGenome() {;}
 
-    std::vector<int> getOrder() const {return visitOrder;}  // get visitOrder
+    std::vector<int> getOrder() const {return visitOrder;}
     double getCircuitLength() const {return circuitLength;}
 
-    //  compute the circuit length
     void computeCircuitLength(const std::vector<Point>& points);
-    void mutate();  // mutate genome
+    void mutate(); 
 };
 
-//  find shortest path
+
 TSPGenome findAShortPath(const std::vector<Point>& points,
     int populationSize, int numGenerations,
     int keepPopulation, int numMutations);

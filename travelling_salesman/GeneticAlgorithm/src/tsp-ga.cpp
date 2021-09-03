@@ -1,7 +1,7 @@
 //  Travelling Salesman Problem, Genetic algorithms (GAs)
 
 
-#include "tsp-ga.h"  // TSPGenome class
+#include "tsp-ga.h"
 #include <utility>
 
 // initializing genome from the specified visit order.
@@ -17,24 +17,27 @@ TSPGenome::TSPGenome(int numPoints)
     circuitLength = 1e9;
     for (int i = 0; i < numPoints; i++)
     {
-        visitOrder.push_back(i);  // push 0, 1, 2, 3, ... numPoints-1 into vector
+        visitOrder.push_back(i++);  // push 0, 1, 2, 3, ... numPoints-1 into vector
     }
     random_shuffle(visitOrder.begin(), visitOrder.end());  // generate a random visit order
 }
 
 //  Mutate genome by swapping 2 random values in the visitOrder-vector.
-void TSPGenome::mutate()
+void 
+TSPGenome::mutate()
 {
-    int i = rand() % (visitOrder.size());  // creates values between [0, size-1]
-    int j = rand() % (visitOrder.size());
-    while (j == i) {   // loop as long as the 2nd value == 1st value.
+    auto i = rand() % (visitOrder.size());  // creates values between [0, size-1]
+    auto j = rand() % (visitOrder.size());
+    while (j == i) // loop as long as the 2nd value == 1st value.
+    {   
         j = rand() % (visitOrder.size());
     }
     std::swap(visitOrder[i], visitOrder[j]);
 }
 
 // Fitness function
-void TSPGenome::computeCircuitLength(const std::vector<Point>& points)
+void 
+TSPGenome::computeCircuitLength(const std::vector<Point>& points)
 {
     circuitLength = 0;
     for (int i = 0; i < visitOrder.size(); i++)
@@ -44,12 +47,14 @@ void TSPGenome::computeCircuitLength(const std::vector<Point>& points)
 }
 
 // mechanism to produce offspring from the "best" parents.
-TSPGenome crosslink(const TSPGenome& g1, const TSPGenome& g2)
+TSPGenome 
+crosslink(const TSPGenome& g1, const TSPGenome& g2)
 {
     std::vector<int> newOrder;  // offsprings order.
     std::set<int> myset;  // store unique elements following a specific order.
-    int index = rand() % g1.getOrder().size();
-    for (int i = 0; i < index; i++) {
+    auto index = rand() % g1.getOrder().size();
+    for (int i = 0; i < index; i++) 
+    {
         myset.insert(g1.getOrder()[i]);  // inserting only new (unique) elements.
         newOrder.push_back(g1.getOrder()[i]);  // copy g1's order-values at indexes [0, i-1] to new vector.
     }
@@ -66,41 +71,43 @@ TSPGenome crosslink(const TSPGenome& g1, const TSPGenome& g2)
     return(TSPGenome(newOrder));  // create a new TSPGenome object.
 }
 
-bool isShorterPath(const TSPGenome& g1, const TSPGenome& g2)
+bool 
+isShorterPath(const TSPGenome& g1, const TSPGenome& g2)
 {
     return (g1.getCircuitLength() < g2.getCircuitLength());
 }
 
-TSPGenome findAShortPath(const std::vector<Point>& points,
+TSPGenome 
+findAShortPath(
+        const std::vector<Point>& points,
         int populationSize, int numGenerations,
         int keepPopulation, int numMutations)
 {
-    std::vector<TSPGenome> population;  // population
+    std::vector<TSPGenome> population;
     //  generate random genomes (population), size of genome = # of points
     for (int i = 0; i < populationSize; i++)
     {
-    population.push_back(TSPGenome(points.size()));
+        population.push_back(TSPGenome(points.size()));
     }
-    //  looping through generations
     for (int gen = 0; gen < numGenerations; gen++)
     {
         for (int i = 0; i < populationSize; i++)
         {
-            population[i].computeCircuitLength(points);  // compute circuit length for each genome
+            population[i].computeCircuitLength(points);
         }
         // sort the genomes by fitness
         std::sort(population.begin(), population.end(), isShorterPath);
-        if (gen % 10 == 0) {
-                std::cout << "\nGeneration " << gen << " shortest path: "
-                                            << population[0].getCircuitLength()
-                                    << std::endl;  // best solution so far
+        if (gen % 10 == 0) 
+        {
+            std::cout << "\nGeneration " << gen << " shortest path: "
+                    << population[0].getCircuitLength() << "\n";
         }
         // keepPopulation specifies how many individuals to keep from the existing population.
         // we have to replace the remaining members with new genomes produced from the fittest ones.
         for (int i = keepPopulation; i < populationSize; i++)
         {
-            std::size_t g1 = rand() % (keepPopulation);
-            std::size_t g2 = rand() % (keepPopulation);
+            auto g1 = rand() % (keepPopulation);
+            auto g2 = rand() % (keepPopulation);
             // generate new genomes into the existing population, overwriting existing members.
             population[i] = crosslink(population[g1], population[g2]);
         }

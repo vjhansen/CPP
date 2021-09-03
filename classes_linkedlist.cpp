@@ -46,13 +46,9 @@ StudentNode::StudentNode()
     Age = -1;
     Degree = "Other degree";
 }
+
 //  Overloaded constructor
-StudentNode::StudentNode(std::string n, int a, std::string d)
-{
-    Name = n;
-    Age = a;
-    Degree = d;
-}
+StudentNode::StudentNode(std::string n, int a, std::string d) {Name(n), Age(a), Degree(d);}
 
 StudentNode::~StudentNode() {std::cout << "Node deleted";}
 
@@ -62,35 +58,39 @@ StudentLink::~StudentLink()
 {
     std::cout << "\nList deleted\n";
 }
-void StudentLink::addData(std::string Name, int Age, std::string Degree)
+
+void 
+StudentLink::addData(std::string Name, int Age, std::string Degree)
 {
     StudentNode* Snode = new StudentNode();
-    Snode->Name = Name;
-    Snode->Age = Age;
-    Snode->Degree = Degree;
-    Snode->next = this->head;
-    this->head = Snode;
+
+    Snode->Name     = Name;
+    Snode->Age      = Age;
+    Snode->Degree   = Degree;
+    Snode->next     = this->head;
+    this->head      = Snode;
 }
 
-void StudentLink::print()
+void 
+StudentLink::print()
 {
     StudentNode* head = this->head;
     while (head)
     {
-        std::cout << " -> [" << head->Name << ", "
-         << head->Age << ", " << head->Degree << "]";
+        std::cout   << " -> [" << head->Name << ", "
+                    << head->Age << ", " 
+                    << head->Degree << "]";
         head = head->next;
     }
 }
 
 
-static void setValues(StudentLink *list)
+static void 
+setValues(StudentLink *list)
 {
-    std::string n;
-    int a;
-    std::string d;
+    std::string n, d;
+    int a, size;
     std::cout << "How many students? ";
-    int size;
     std::cin >> size;
 
     for (int i=0; i < size; ++i)
@@ -101,7 +101,7 @@ static void setValues(StudentLink *list)
         std::cin >> a;
         std::cout << "Student(" << i+1 << ") degree: ";
         std::cin >> d;
-        std::cout << std::endl;
+        std::cout << "\n";
         list->addData(n, a, d);
     }
 }

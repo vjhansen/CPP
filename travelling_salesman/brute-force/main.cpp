@@ -44,7 +44,7 @@ void read_txt_and_fill(std::vector<Point>& txt_points)
     else
         std::cout << "Unable to open file.";
 
-    int n = 1;
+    auto n = 1;
     // read_point.front() = number of points, i.e. 5 for test-5.txt
     for (int i=0; i < read_point.front(); i++)
     {
@@ -105,7 +105,7 @@ std::vector<int> findShortestPath(const std::vector<Point>& points)
     std::vector<int> bestPath;
     std::vector<int> thisPath(points.size());  // initialize with size
     double shortestDist;
-    for (int i=0; i < thisPath.size(); i++)
+    for (auto i = 0; i < thisPath.size(); i++)
     {
         thisPath[i] = i;
     }
@@ -126,7 +126,7 @@ std::vector<int> findShortestPath(const std::vector<Point>& points)
 static void printPath(const std::vector<int> &shortestPath)
 {
     std::cout << "\nBest order: [ ";
-    for (int i=0; i < shortestPath.size(); i++)
+    for (auto i = 0; i < shortestPath.size(); i++)
     {
         std::cout << shortestPath.at(i) << ' ';
     }
@@ -134,9 +134,10 @@ static void printPath(const std::vector<int> &shortestPath)
 }
 
 
-int main() {
+int main() 
+{
     std::vector<Point> points;
-    int choice = 0;
+    auto choice = 0;
     std::cout << "Travelling salesman problem\n"
             << "\t1. Read points from .txt-file.\n"
             << "\t2. Fill in points manually.\n"
